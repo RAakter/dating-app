@@ -1,5 +1,5 @@
 **Expected Outcome:**
- -- A simple dating web app with both Laravel and Bootstrap using the Latest version.
+  A simple dating web app with both Laravel and Bootstrap using the Latest version.
 
 **Feature List:**
 1. Registration with Name, Email, Password, Location (PC/Browser geolocation -
