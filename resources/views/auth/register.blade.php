@@ -82,3 +82,38 @@
         </form>
     </x-auth-card>
 </x-guest-layout>
+{{--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    window.onload = function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(setPosition);
+        } else {
+            console.log("Geolocation not supported by browser.");
+        }
+
+    };
+
+    function setPosition(position) {
+        console.log(position);
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('register') }}",
+            data: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            },
+            success: function(ajax) {
+                console.log($.ajax);
+            },
+            error: function(request, error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+--}}

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Stevebauman\Location\Facades\Location;
 
 class RegisteredUserController extends Controller
 {
@@ -44,8 +45,15 @@ class RegisteredUserController extends Controller
         ]);
 
         $image = $userService->image();
-        $data = array('password' => Hash::make($request->password));
-        $user = User::create(array_merge($request->only('name','email','gender','dob','image',), $data, $image));
+        $geolocation = Location::get($userService->getPublicIP());
+
+        $data = array(
+            'password' => Hash::make($request->password),
+            'latitude' => ($geolocation != '') ? $geolocation->latitude : 0.00 ,
+            'longitude' => ($geolocation != '') ? $geolocation->longitude : 0.00 ,
+        );
+
+        $user = User::create(array_merge($request->only('name','email','gender','dob','image'), $data, $image));
 
 
         event(new Registered($user));
