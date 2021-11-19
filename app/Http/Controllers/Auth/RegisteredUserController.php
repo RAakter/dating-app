@@ -55,7 +55,6 @@ class RegisteredUserController extends Controller
 
         $user = User::create(array_merge($request->only('name','email','gender','dob','image'), $data, $image));
 
-
         event(new Registered($user));
 
         Auth::login($user);
