@@ -20,9 +20,6 @@
     </div>
 </x-app-layout>
 
-<!DOCTYPE html>
-<html>
-<head>
     <style>
         #map {
             height: 500px;
@@ -34,7 +31,6 @@
             bottom:0;
         }
     </style>
-    <title>Map</title>
     <script>
         var users = <?php use Illuminate\Support\Facades\Auth; echo json_encode($users); ?>;
         var loggedInUserLat = <?php echo json_encode(Auth::user()->latitude); ?>;
