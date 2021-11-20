@@ -107,6 +107,3 @@
         }// JavaScript Document
     </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbEeUbn4iZTXVViqFHw6YKf7J6pqhWwr4&callback=initMap&fullscreen=0" async></script>
-
-
