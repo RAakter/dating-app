@@ -49,8 +49,7 @@ class UserService
             $host = $_SERVER['HTTP_HOST'];
             $protocol = $_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $path = $protocol . $host . "/public/storage/" . $photoName;
-            $image = ['image' => $path];
-            return $image;
+            return ['image' => $path];
         }
         else
         {

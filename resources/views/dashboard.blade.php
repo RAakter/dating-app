@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
 <x-app-layout>
     <x-slot name="header">
@@ -13,11 +11,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <table class="table table-bordered table-hover table-responsive">
-                        <thead>
+                        <thead id="tableheader">
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Image</th>
                             <th>Distance</th>
                             <th>Gender</th>
                             <th>Age</th>
@@ -25,12 +22,121 @@
                         </tr>
                         </thead>
 
-                        <tbody>
-
+                        <tbody id="userdata">
+                        <tr>
+                        </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+
+<script>
+
+    $(function(){
+        $.ajax({
+            url: '{{'/user/list'}}',
+            type: 'GET',
+            success: function (res) {
+                const response = JSON.parse(res);
+                const size = response.list_size;
+                const users = response.data;
+                var row = '';
+                if (size > 0)
+                {
+                    $.each(users, function (index, user) {
+                        row += '<tr>';
+                        //id
+                        row += '<td>' + user.id + '</td>';
+
+                        //name
+                        row += '<td>' + user.name + '</td>';
+
+                        //image
+                        /* row += '<td>' +
+                             '<img class="card-img-top" src="' + user.profile_image_path + '"    alt="' + user.profile_image + '"  width="150px" height="150px" />'
+                             + '</td>';
+ */
+                        // distance
+                        row += '<td>' + user.distance + ' km'+ '</td>';
+
+                        // gender
+                        row += '<td>' + user.gender + '</td>';
+
+                        // age
+                        row += '<td>' + user.age + '</td>';
+
+                        // action
+                        row += '<td>' + '<button class="btn btn-sm btn-info text-white" id="' +"likeBtn"+ user.id + '"    onclick="like('+ user.id+ ')" >' +
+                            '' +
+                            'Like ' +
+                            '</button>'+' ' +
+
+                            '<button class="btn btn-sm btn-dark" id="' +"dislikeBtn"+ user.id + '"  disabled  onclick="dislike('+ user.id+ ')" >' +
+                            '' +
+                            'Dislike ' +
+                            '</button>'
+
+                            + '</td>';
+
+                        row += '</tr>';
+
+                    })
+                }
+                else
+                {
+                    $("#tableheader").hide();
+                    row += '<h1>Sorry, No Users found in 5 Km Distance. </h1>';
+                }
+                $('#userdata').append(row);
+            }
+        });
+    });
+
+
+    function like(id) {
+        $.ajax({
+            url: '{{ url('like') }}/'+id,
+
+            type: 'GET',
+            success: function(res) {
+                alert(JSON.parse(res).message);
+
+                if (JSON.parse(res).matched === true)
+                {
+                    alert('It\'s a Match!');
+                }
+
+                $("#likeBtn"+id).attr("disabled", true);
+                $("#dislikeBtn"+id).prop("disabled", false);
+
+            },
+            error: function () {
+                alert('Please Try again later');
+            }
+        });
+
+    }
+
+    function dislike(id) {
+        $.ajax({
+            url: '{{ url('dislike') }}/'+id,
+            type: 'GET',
+            success: function(res) {
+                alert( JSON.parse(res).message );
+
+                $("#dislikeBtn"+id).attr("disabled", true);
+                $("#likeBtn"+id).prop('disabled', false);
+
+            },
+            error: function () {
+                alert('Please Try again later');
+            }
+        });
+    }
+
+</script>
+
