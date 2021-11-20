@@ -39,9 +39,8 @@
         var users = <?php use Illuminate\Support\Facades\Auth; echo json_encode($users); ?>;
         var loggedInUserLat = <?php echo json_encode(Auth::user()->latitude); ?>;
         var loggedInUserLon = <?php echo json_encode(Auth::user()->longitude); ?>;
-
         function initMap() {
-            var latlng = new google.maps.LatLng(loggedInUserLat,loggedInUserLon);
+            var latlng = new google.maps.LatLng( loggedInUserLat, loggedInUserLon);
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 13,
                 center: latlng,
@@ -52,14 +51,6 @@
 
         // Data for the markers consisting of a name, a LatLng and a zIndex for the
         // order in which these markers should display on top of each other.
-
-        const beaches = [
-            ["Alesha Tech Ltd", 23.7941696, 90.4021865, 4],
-            ["Gulshan 1 Dhaka", 23.7806809,90.407685, 5],
-            ["Nasrin Tower", 23.7699916,90.4009916, 3],
-            ["Phonix Tower", 23.7598993,90.3945012, 2],
-            ["Prasad Trade Center", 23.7940504,90.4003844, 1],
-        ];
 
 
         function setMarkers(map) {
@@ -84,19 +75,39 @@
                 coords: [1, 1, 1, 20, 18, 20, 18, 1],
                 type: "poly",
             };
+            const locations = [];
 
-            for (let i = 0; i < beaches.length; i++) {
-                const beach = beaches[i];
+            locations.push(23.759739);
+            locations.push(90.392418);
 
-                new google.maps.Marker({
-                    position: { lat: beach[1], lng: beach[2] },
-                    map,
-                    icon: image,
-                    shape: shape,
-                    title: beach[0],
-                    zIndex: beach[3],
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(23.759739, 90.392418),
+                map: map,
+                draggable: false,
+                anchorPoint: new google.maps.Point(0, -29),
+            });
+
+            for (var key in users) {
+                var value = users[key];
+
+                locations.push(value.latitude);
+                locations.push(value.longitude);
+
+                var location = new google.maps.LatLng(value.latitude, value.longitude);
+                var labels = value.name;
+                labelIndex = 0;
+
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    draggable: false,
+                    title: labels,
+                    anchorPoint: new google.maps.Point(0, -29),
+                    label: labels[labelIndex++ % labels.length],
                 });
+
             }
+
         }// JavaScript Document
     </script>
 

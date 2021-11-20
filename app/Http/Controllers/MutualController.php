@@ -47,7 +47,6 @@ class MutualController extends Controller
     public function map()
     {
         $users =  $this->userlistRepository->nearestUserList('map');
-        dd($users->select('name'));
         return view('map', compact('users'));
 
     }

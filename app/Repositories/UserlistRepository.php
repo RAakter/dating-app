@@ -50,7 +50,7 @@ class UserlistRepository implements UserlistRepositoryInterface
                     $user->type = 'None';
                 }
 
-            if ($mode != 'map')
+            if ($mode == 'list')
                {
                     if ($distance <= $limit)
                     {
@@ -58,11 +58,11 @@ class UserlistRepository implements UserlistRepositoryInterface
                     }
 
                }
-            else
+            elseif($mode == 'map')
             {
                 if ($distance <= $limit)
                 {
-                    $nearestuserlist[$i] = (array)$user;
+                    $nearestuserlist[$i] = $user;
                 }
             }
                 $i++;
